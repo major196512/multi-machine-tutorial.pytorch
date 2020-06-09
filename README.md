@@ -1,6 +1,5 @@
-<p align="center"><img width="40%" src="./imgs/pytorch.png"></p>
-
 # Multi Machine Tutorial for Pytorch
+<p align="center"><img width="40%" src="./imgs/pytorch.png"></p>
 
 ## Introduction
 xxxxx
