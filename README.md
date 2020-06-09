@@ -1,8 +1,7 @@
 <p align="center"><img width="40%" src="./img/pytorch.png"></p>
 
 # Multi Machine Tutorial for Pytorch
-It works TCP communication for multi-gpu processing.
-They automatically find unused port address and 
+
 
 ## Requirements
 * pytorch : 1.5
@@ -18,9 +17,9 @@ CUDA_VISIBLE_DEVICES='0,1' python -m src.tools.check_dist --num-gpu 2
 ## Multi Machines
 ### Main Machine
 [For collective communication](https://tutorials.pytorch.kr/intermediate/dist_tuto.html#collective-communication) in pytorch, it needs to execute process in main machine.
-They automatically set main machine ip address and unused port number for TCP communication.
-`num-machine`
-set `machine-rank` to zero.
+They automatically set main machine IP address and unused port number for TCP communication.
+
+For main process, you must set `machine-rank` to zero and `num-machine` to the number of machines.
 ```bash
 CUDA_VISIBLE_DEVICES='0,1' python -m src.tools.check_dist --num-gpu 2 --num-machine 2 --machine-rank 0
 ```
@@ -31,8 +30,7 @@ CUDA_VISIBLE_DEVICES='0,1' python -m src.tools.check_dist --num-gpu 2 --num-mach
 ```
 
 ### Other Machines
-In other machines, you clarify `machine-rank` within the range of 1~(num_machine-1).
-And you must set `dist-ip` and `dist-port` arguments which is the same with main machine values.
+In other machines, you clarify `machine-rank` and must set `dist-ip` and `dist-port` arguments which is the same with main machine values.
 
 ```bash
 CUDA_VISIBLE_DEVICES='0,1' python -m src.tools.check_dist --num-gpu 2 --num-machine 2 --machine-rank 1 --dist-ip xxx.xxx.xxx.xxx --dist-port xxxxx
