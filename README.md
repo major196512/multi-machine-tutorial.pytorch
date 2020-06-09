@@ -1,7 +1,6 @@
-# Multi Machine Tutorial for Pytorch
 <p align="center"><img width="40%" src="./img/pytorch.png"></p>
 
-## Introduction
+## Multi Machine Tutorial for Pytorch
 xxxxx
 
 ## Requirements
