@@ -16,7 +16,7 @@ CUDA_VISIBLE_DEVICES='0,1' python -m src.tools.check_dist --num-gpu 2
 
 ## Multi Machines
 ### Main Machine
-[For collective communication](https://tutorials.pytorch.kr/intermediate/dist_tuto.html#collective-communication) in pytorch, it needs to execute process in main machine.
+[For collective communication](https://pytorch.org/tutorials/intermediate/dist_tuto.html#collective-communication) in pytorch, it needs to execute process in main machine.
 They automatically set main machine IP address and unused port number for TCP communication.
 
 For main process, you must set `machine-rank` to zero and `num-machine` to the number of machines.
