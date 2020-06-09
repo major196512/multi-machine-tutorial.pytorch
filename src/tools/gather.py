@@ -17,11 +17,11 @@ def main(args):
         print('---------------------------------------------')
         print('            All Gather Method                ')
         print('---------------------------------------------')
-    local_tensor = torch.tensor([torch.rand(world_size)[local_rank]]).cuda()
+    local_tensor = torch.tensor([torch.rand(world_size)[local_rank]])
 
-    print(f'cuda_device(local({local_tensor})')
+    print(f'cuda_device({torch.cuda.current_device()}) : local({local_tensor})')
     tensor = all_gather(local_tensor)
-    print(f'cuda_device(gather({tensor})')
+    print(f'cuda_device({torch.cuda.current_device()}) : gather({tensor})')
 
     synchronize()
 
@@ -29,10 +29,10 @@ def main(args):
         print('---------------------------------------------')
         print('              Gather Method                  ')
         print('---------------------------------------------')
-    local_tensor = torch.tensor([torch.rand(world_size)[local_rank]]).cuda()
-    print(f'cuda_device(local({local_tensor})')
+    local_tensor = torch.tensor([torch.rand(world_size)[local_rank]])
+    print(f'cuda_device({torch.cuda.current_device()}) : local({local_tensor})')
     tensor = gather(local_tensor, dst=0)
-    print(f'cuda_device(gather({tensor})')
+    print(f'cuda_device({torch.cuda.current_device()}) : gather({tensor})')
 
 if __name__ == "__main__":
     args = default_argument_parser().parse_args()
