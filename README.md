@@ -37,7 +37,7 @@ CUDA_VISIBLE_DEVICES='0,1' python -m src.tools.check_dist --num-gpu 2 --num-mach
 ```
 
 ## Test
-Examples for collective communication functions in single machine.
+Examples for collective communication functions and data loader in single machine.
 It also can be executed in multi-machine settings.
 ### Gather
 ```bash
@@ -47,4 +47,9 @@ CUDA_VISIBLE_DEVICES='0,1' python -m src.tools.gather --num-gpu 2
 ### Reduce
 ```bash
 CUDA_VISIBLE_DEVICES='0,1' python -m src.tools.reduce --num-gpu 2
+```
+
+### Data Loader
+```bash
+CUDA_VISIBLE_DEVICES='0,1' python -m src.tools.loader --num-gpu 2 --seed 0
 ```
