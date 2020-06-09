@@ -16,7 +16,7 @@ def main(args):
     if seed == -1 : seed = shared_random_seed()
     seed_all_rng(seed)
 
-    loader = build_train_loader(images_per_batch=images_per_batch, shuffle=train_shuffle, seed=seed)
+    loader = build_train_loader(images_per_batch=images_per_batch, num_machines=args.num_machines, shuffle=train_shuffle, seed=seed)
     loader_iter = iter(loader)
     data = next(loader_iter)
 

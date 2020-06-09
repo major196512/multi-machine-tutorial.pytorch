@@ -6,12 +6,15 @@ from .loader import cifar_10_loader
 
 __all__ = ['build_train_loader']
 
-def build_train_loader(images_per_batch=16, seed=None, shuffle=True):
+def build_train_loader(images_per_batch, num_machines=1, seed=None, shuffle=True):
+    assert images_per_batch > num_machines
+    assert images_per_batch % num_machines == 0
+
     data = cifar_10_loader(train=True)
     dataset = DatasetFromDict(data)
     sampler = IterSampler(size=len(dataset), shuffle=shuffle, seed=seed)
     batch_sampler = torch.utils.data.sampler.BatchSampler(
-                sampler, images_per_batch, drop_last=True
+                sampler, images_per_batch // num_machines, drop_last=True
             )  # drop last so the batch always have the same size
 
     data_loader = torch.utils.data.DataLoader(
