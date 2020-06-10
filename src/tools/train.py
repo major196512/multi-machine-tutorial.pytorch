@@ -25,7 +25,7 @@ def main(args):
 
     model = ToyModel(device=device).to(get_rank())
     if get_world_size() > 1:
-        model = DistributedDataParallel(model, device_ids=[get_rank()])
+        model = DistributedDataParallel(model, device_ids=[get_rank()], broadcast_buffers=False)
 
     loader = build_train_loader(images_per_batch=images_per_batch, num_workers=num_workers, world_size=get_world_size(), shuffle=True, seed=seed)
     loss_fn = nn.CrossEntropyLoss()
