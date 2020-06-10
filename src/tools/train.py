@@ -9,8 +9,9 @@ from ..engine import launch, default_argument_parser
 logging.basicConfig(level=logging.INFO)
 
 def main(args):
-    max_iter = 10000
-    images_per_batch = 1024
+    max_iter = 100
+    images_per_batch = 8
+    num_workers = 2
     device='cuda'
 
     from ..utils.env import seed_all_rng
@@ -22,13 +23,13 @@ def main(args):
     if seed == -1 : seed = shared_random_seed()
     seed_all_rng(seed)
 
-    model = ToyModel(device=device)
+    model = ToyModel(device=device).to(get_rank())
     if get_world_size() > 1:
         model = DistributedDataParallel(model, device_ids=[get_rank()])
 
-    loader = build_train_loader(images_per_batch=images_per_batch, world_size=get_world_size(), shuffle=True, seed=seed)
+    loader = build_train_loader(images_per_batch=images_per_batch, num_workers=num_workers, world_size=get_world_size(), shuffle=True, seed=seed)
     loss_fn = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=0.001)
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
 
     for curr_iter in range(max_iter):
         optimizer.zero_grad()
@@ -42,7 +43,7 @@ def main(args):
         loss.backward()
         optimizer.step()
 
-        if is_main_process() and curr_iter % 100 == 0:
+        if is_main_process() and curr_iter % 10 == 0:
             print(f'iteration({curr_iter}) : loss({loss.item():.5f})')
 
 if __name__ == "__main__":
