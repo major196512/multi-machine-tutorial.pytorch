@@ -15,7 +15,7 @@ def main(args):
     device='cuda'
 
     from ..utils.env import seed_all_rng
-    from ..dist import shared_random_seed, synchronize, get_world_size, get_rank, is_main_process
+    from ..dist import shared_random_seed, synchronize, get_world_size, get_rank, get_local_rank, is_main_process
     from ..data import build_train_loader
     from ..modeling import ToyModel
 
@@ -23,9 +23,9 @@ def main(args):
     if seed == -1 : seed = shared_random_seed()
     seed_all_rng(seed)
 
-    model = ToyModel(device=device).to(get_rank())
+    model = ToyModel(device=device)
     if get_world_size() > 1:
-        model = DistributedDataParallel(model, device_ids=[get_rank()], broadcast_buffers=False)
+        model = DistributedDataParallel(model, device_ids=[get_local_rank()], broadcast_buffers=False)
 
     loader = build_train_loader(images_per_batch=images_per_batch, num_workers=num_workers, world_size=get_world_size(), shuffle=True, seed=seed)
     loss_fn = nn.CrossEntropyLoss()
