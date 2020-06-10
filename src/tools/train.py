@@ -38,6 +38,7 @@ def main(args):
 
         img = torch.cat([d['img'][None, :] for d in data], dim=0).to(device)
         ann = torch.tensor([d['ann'] for d in data]).long().to(device)
+        
         output = model(img)
         loss = loss_fn(output, ann)
         loss.backward()
